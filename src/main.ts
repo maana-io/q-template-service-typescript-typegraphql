@@ -1,30 +1,52 @@
+import "reflect-metadata";
+import * as path from "path";
+import { buildSchema } from "type-graphql";
 import { GraphQLError, GraphQLFormattedError } from "graphql";
-
 import { ApolloServer } from "apollo-server";
 import { environment } from "./environment";
-import infoSchema from "./schemas/info";
-import personSchema from "./schemas/person";
-import { resolvers } from "./resolvers";
-
-type Maybe<T> = T | null;
+import pubSub from "./pubsub";
+import { InfoResolver } from "./resolvers/info";
+// --------------------------------
+// TODO: IMPORT YOUR RESOLVERS HERE
+// --------------------------------
+import { PersonResolver } from "./resolvers/person";
 
 export interface Context {}
 
-function formatError(error: GraphQLError): GraphQLFormattedError {
-  console.error(`[ERROR] ${JSON.stringify(error)}`);
-  return {
-    message: error.message,
-    locations: error.locations,
-    path: error.path
-  };
-}
+const bootstrap = async () => {
+  // build TypeGraphQL executable schema
+  const schema = await buildSchema({
+    resolvers: [
+      InfoResolver,
+      // ----------------------------
+      // TODO: ADD YOU RESOLVERS HERE
+      // ----------------------------
+      PersonResolver,
+    ],
+    // ------------------------
+    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
+    pubSub,
+  });
 
-const server = new ApolloServer({
-  resolvers: resolvers as any,
-  typeDefs: [personSchema, infoSchema],
-  introspection: environment.apollo.introspection,
-  playground: environment.apollo.playground,
-  formatError
-});
+  function formatError(error: GraphQLError): GraphQLFormattedError {
+    console.error(`[ERROR] ${JSON.stringify(error)}`);
+    return {
+      message: error.message,
+      locations: error.locations,
+      path: error.path,
+    };
+  }
 
-server.listen(environment.port).then(({ url }) => console.log(`Server ready at ${url}. `));
+  const server = new ApolloServer({
+    schema,
+    introspection: environment.apollo.introspection,
+    playground: environment.apollo.playground,
+    formatError,
+  });
+
+  // Start the server
+  const { url } = await server.listen(environment.port);
+  console.log(`🚀 Server ready at ${url}.`);
+};
+
+bootstrap();

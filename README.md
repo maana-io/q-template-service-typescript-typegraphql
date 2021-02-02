@@ -1,15 +1,13 @@
-# TypeScript based Maana Q Knowledge Microservice Template
+# TypeScript (with TypeGraphQL) based Maana Q Knowledge Microservice Template
 
 ## Folder Layout
 
-```
+```text
 / - the root directory.
 | src/ - contains all of the source code.
-  | model/ - The custom models used with the service.
+  | types/ - The types used with the service.
   | resolvers/ - The resolvers that define how the schema is resolved.
-  | schemas/ - The schema of the public facing GraphQL API.
 | .env.template - A template .env file to use as a starting point.
-| .codegen.yml - Configuration for the code generation from GraphQL.
 | Dockerfile - Defines how the docker container is built.
 | package.json - Node configuration and metadata file.
 | tsconfig.json - Configuration for the TypeScript compiler.
@@ -23,56 +21,53 @@
 
   ```json
   {
-    "name": "sample",
-    "author": "Acme, Inc.",
+    "name": "<my-service>",
+    "author": "<me>",
     "license": "MIT",
     "version": "1.0.0",
-    "description": "Awesome Bot",
-    "main": "src/server.js",
-    "repository": "https://github.com/acme-inc/awesome-bot.git",
+    "description": "<my-service-description>",
+    "repository": "https://github.com/<my-repo>/<my-service>.git",
   ```
 
 * Edit the `.env` file to reflect proper `PORT`, `SERVICE_ID`, and other service-specific parameters.
-* Define your public-facing schema in the `src/schemas` folder and add resolvers for them in `src/resolvers`.
+* Define your decorated types in the `src/types` folder and add resolvers for them in `src/resolvers`. See the [official TypeGraphQL documentation](https://typegraphql.com/docs/introduction.html) for details.
 
 ## Building and running
 
+### Development
+
+```bash
+yarn run startdev
 ```
-docker build . -t template-service
-docker run -p 8050:8050 template-service:latest
+
+### Docker
+
+```bash
+docker build . -t <my-service>
+docker run -p 8050:8050 <my-service>:latest
 ```
-
-## Code-Gen
-
-This project uses the GraphQL Code Generator (https://graphql-code-generator.com)
-CLI to generate types from its public-facing GraphQL schema. Each time this
-schema is updated, the file `./src/schemas/gen-types.ts` needs to be
-re-generated. To do this,
-
-1. Make sure you have the GraphQL Code Generator dependencies installed.
-   `npm install`
-1. Run the service locally.
-   `npm run startdev`
-1. While the service is running, from another command window run the code-gen CLI.
-   `npm run generate`
-1. Verify that there are no issues with the generated file. The service will automatically recompile when the new `gen-types.ts` file is written. If there
-are any errors, you will have to manually correct the file.
 
 ## Deploying the Service
 
-### Prerequisits
+Once you have built and tested your service locally, you are ready to deploy it to a Kubernetes cluster for integration testing or production rollout.  This section covers the two officially supported options.
 
-* Maana CLI instanned (`graphql-cli` and `graphql-cli-maana`).
+### Ad Hoc Deployment
+
+Use this approach during development and testing.
+
+#### Prerequisites
+
+* Maana CLI installed (`graphql-cli` and `graphql-cli-maana`).
 * Docker installed and running on your machine.
 * KubeCtl installed and configured.
 
-### Log into the Azure Container Registery
+#### Log into the Azure Container Registery
 
 ```
 docker login --username [USER_NAME] --password [PASSWORD] [ACR_NAME].azurecr.io
 ```
 
-### Deploy the Service
+#### Deploy the Service
 
 ```
 gql mdeploy
@@ -88,3 +83,9 @@ Options:
 * Set the number fo pods to spin up, usually you want to start with `1`.
 * Set the port number you setup for your service, the default for the template is `80`.
 * it `Y` to confirm you setup and start building and deploying your service.
+
+### Production Deployment
+
+In this approach, you will create a dedicated deployment repo with a Helm chart and a packaged version of your service.  This is most commonly used for production build and deployment scenarios.
+
+See the [Maana Q standalone service deployment template](https://github.com/maana-io/q-template-deploy-service) for details.

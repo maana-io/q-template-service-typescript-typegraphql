@@ -1,0 +1,61 @@
+mutation addPerson {
+  bob:addPerson(
+    input: { id: "bob", givenName: "Bob", familyName: "Balaban", dateOfBirth: "12-3-1923" }
+  )
+  mary:addPerson(
+    input: { givenName: "Mary", familyName: "Balaban", dateOfBirth: "12-3-1923" }
+  )
+}
+
+mutation updatePerson {
+  updatePerson(
+    input: { id: "bob", givenName: "Larry" }
+  ) {
+    name
+  }
+}
+
+mutation deletePerson {
+  deletePerson(id: "bob") {
+    id
+    name
+    dateOfBirth
+  }
+}
+
+query person {
+  person(id: "bob") {
+    id
+    name
+    dateOfBirth
+  }
+}
+
+query allPeople {
+  allPeople {
+    id
+    name
+    dateOfBirth
+  }
+}
+
+subscription added {
+  personAdded {
+    id
+    name
+  }
+}
+
+subscription updated {
+  personUpdated {
+    id
+    name
+  }
+}
+
+subscription deleted {
+  personDeleted {
+    id
+    name
+  }
+}

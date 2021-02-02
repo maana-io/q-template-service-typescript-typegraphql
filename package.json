@@ -7,13 +7,11 @@
   "main": "dist/main.js",
   "repository": "git@github.com:maana-io/q-template-service-node-ts-basic",
   "scripts": {
-    "prepare": "npm run generate && npm run build",
     "test": "jest",
     "build": "tsc",
     "startdev": "tsc-watch --onSuccess \"node ./dist/main.js\"",
     "start": "node ./dist/main.js",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "generate": "graphql-codegen; prettier --write \"src/schemas/*-types.ts\""
+    "format": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
     "apollo-server": "^2.19.2",
@@ -22,16 +20,16 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^1.20.1",
-    "@graphql-codegen/typescript": "^1.20.2",
-    "@graphql-codegen/typescript-resolvers": "^1.18.1",
     "@types/jest": "^26.0.20",
     "@types/uuid": "^8.3.0",
+    "class-validator": "^0.13.1",
     "core-js": "^3.8.3",
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
+    "reflect-metadata": "^0.1.13",
     "ts-jest": "^26.5.0",
     "tsc-watch": "^4.2.9",
+    "type-graphql": "^1.1.1",
     "typescript": "^3.9.0"
   },
   "jest": {

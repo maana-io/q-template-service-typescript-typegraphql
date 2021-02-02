@@ -1,27 +1,16 @@
-import { QueryResolvers } from "../schemas/gen-types";
+import { Resolver, Query, ResolverInterface } from "type-graphql";
 import { environment } from "../environment";
+import { Info } from "../types/info";
 
-/**
- * graphql-code-gen generates resolvers for each Type in the GraphQL schema.
- * Here we aggregate the interfaces for Info resolved within this file, along
- * with the common Query Type.
- *
- * When an interface is added here, it also needs to be added in the top-level
- * file, resolvers.ts.
- */
-interface Resolvers {
-  Query: QueryResolvers;
+@Resolver()
+export class InfoResolver {
+  @Query((returns) => Info, { description: "Information about the current service" })
+  info(): Info {
+    return new Info({
+      id: environment.serviceId,
+      name: environment.serviceId,
+      version: environment.version,
+      description: "Maana Q Knowledge Service template",
+    });
+  }
 }
-
-export const InfoResolver: Resolvers = {
-  Query: {
-    info: () => {
-      return {
-        id: environment.serviceId,
-        version: environment.version,
-        name: environment.serviceId,
-        description: "Maana Q Knowledge Service template",
-      };
-    },
-  },
-};
