@@ -15,9 +15,11 @@
 
 ## Customization
 
-* Change the name and description of the module
+### Project
 
-  In `package.json`, edit the metadata:
+Change the name and description of the module
+
+In `package.json`, edit the metadata:
 
   ```json
   {
@@ -29,8 +31,41 @@
     "repository": "https://github.com/<my-repo>/<my-service>.git",
   ```
 
-* Edit the `.env` file to reflect proper `PORT`, `SERVICE_ID`, and other service-specific parameters.
-* Define your decorated types in the `src/types` folder and add resolvers for them in `src/resolvers`. See the [official TypeGraphQL documentation](https://typegraphql.com/docs/introduction.html) for details.
+### Environment
+
+- Copy the `.env.template` file to an `.env` file
+- Edit the settings to reflect `SERVICE_xxx` values
+- Add your own settings (as appropriate)
+
+NOTE: the env file is NOT checked into the repository as it may contain sensitive information (e.g., authentication keys)
+
+### Schema
+
+Define your decorated types in the `src/types` folder and add resolvers for them in `src/resolvers`. See the [official TypeGraphQL documentation](https://typegraphql.com/docs/introduction.html) for details.
+
+In `main.ts`, import your resolvers where indicated:
+
+```typescript
+import { InfoResolver } from "./resolvers/info";
+// --------------------------------
+// TODO: IMPORT YOUR RESOLVERS HERE
+// --------------------------------
+import { PersonResolver } from "./resolvers/person";
+// --------------------------------
+```
+
+and include them in the resolvers list:
+
+```typescript
+    resolvers: [
+      InfoResolver,
+      // -----------------------------
+      // TODO: ADD YOUR RESOLVERS HERE
+      // -----------------------------
+      PersonResolver,
+      // -----------------------------
+    ],
+```
 
 ## Building and running
 

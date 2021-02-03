@@ -10,6 +10,7 @@ import { InfoResolver } from "./resolvers/info";
 // TODO: IMPORT YOUR RESOLVERS HERE
 // --------------------------------
 import { PersonResolver } from "./resolvers/person";
+// --------------------------------
 
 export interface Context {}
 
@@ -18,12 +19,12 @@ const bootstrap = async () => {
   const schema = await buildSchema({
     resolvers: [
       InfoResolver,
-      // ----------------------------
-      // TODO: ADD YOU RESOLVERS HERE
-      // ----------------------------
+      // -----------------------------
+      // TODO: ADD YOUR RESOLVERS HERE
+      // -----------------------------
       PersonResolver,
+      // -----------------------------
     ],
-    // ------------------------
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
     pubSub,
   });
