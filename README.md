@@ -81,7 +81,7 @@ Options:
 * Enter the name of your docker registry, the same one you logged into. `[ACR_NAME].azurecr.io`
 * Set the version to tag the container with, `v1.0.0` is a good starting point.
 * Set the number fo pods to spin up, usually you want to start with `1`.
-* Set the port number you setup for your service, the default for the template is `80`.
+* Set the port number you setup for your service, the default for the template is `8050`.
 * it `Y` to confirm you setup and start building and deploying your service.
 
 ### Production Deployment

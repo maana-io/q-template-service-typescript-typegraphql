@@ -8,9 +8,9 @@ export class InfoResolver {
   info(): Info {
     return new Info({
       id: environment.serviceId,
-      name: environment.serviceId,
       version: environment.version,
-      description: "Maana Q Knowledge Service template",
+      name: environment.name,
+      description: environment.description,
     });
   }
 }
