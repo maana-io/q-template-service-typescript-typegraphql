@@ -77,9 +77,18 @@ yarn run startdev
 
 ### Docker
 
+The following Docker commands have been added as scripts in `package.json`:
+
 ```bash
 docker build . -t <my-service>
 docker run -p 8050:8050 <my-service>:latest
+```
+
+and can be run with:
+
+```bash
+yarn run build-docker
+yarn run start-docker
 ```
 
 ## Deploying the Service

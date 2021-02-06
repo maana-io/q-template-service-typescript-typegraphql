@@ -1,14 +1,16 @@
 {
-  "name": "maana-my-service",
+  "name": "my-service",
   "author": "Maana, Inc.",
   "license": "MIT",
   "version": "1.0.0",
-  "description": "TypeScript Maana Q Knowledge Service Template",
+  "description": "my-service-description",
   "main": "dist/main.js",
-  "repository": "git@github.com:maana-io/q-template-service-node-ts-basic",
+  "repository": "git@github.com:maana-io/my-service",
   "scripts": {
     "test": "jest",
     "build": "tsc",
+    "build-docker":"docker build . -t my-service",
+    "start-docker":"docker run -p 8050:8050 my-service:latest",
     "startdev": "tsc-watch --onSuccess \"node ./dist/main.js\"",
     "start": "node ./dist/main.js",
     "format": "prettier --write \"src/**/*.ts\""

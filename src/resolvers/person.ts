@@ -24,7 +24,7 @@ export class PersonResolver {
     nullable: true,
     description: "Get a specific person by their unique identifier",
   })
-  async person(@Arg("id") id: string): Promise<Person | undefined> {
+  async person(@Arg("id", () => ID) id: string): Promise<Person | undefined> {
     return this.people[id];
   }
 
@@ -69,7 +69,7 @@ export class PersonResolver {
     description: "Delete a person",
   })
   async deletePerson(
-    @Arg("id") id: string,
+    @Arg("id", () => ID) id: string,
     @PubSub() pubSub: PubSubEngine
   ): Promise<Person | undefined> {
     const person = this.people[id];
